@@ -1,0 +1,22 @@
+/**
+ * Firebase 프로젝트의 주요 설정 파일
+ * 이 파일은 Firebase 서비스들의 설정을 정의합니다.
+ * 
+ * firestore: Firestore 데이터베이스 설정
+ *   - rules: 보안 규칙 파일 위치
+ *   - indexes: 인덱스 설정 파일 위치
+ */
+# {
+#   "firestore": {
+#     "rules": "firestore.rules",
+#     "indexes": "firestore.indexes.json"
+#   },
+#   "hosting": {
+#     "public": "public",
+#     "ignore": [
+#       "firebase.json",
+#       "**/.*",
+#       "**/node_modules/**"
+#     ]
+#   }
+# }

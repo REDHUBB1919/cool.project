@@ -1,0 +1,4 @@
+.progress-bar {
+  width: calc((var(--current-step) / 11) * 100%);
+  transition: width 0.3s ease-in-out;
+} 

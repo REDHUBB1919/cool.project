@@ -1,0 +1,192 @@
+:root {
+  --chart-width: 100%;
+  --sidebar-width: 300px;
+  --progress-width: 0%;
+  --score-gradient: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
+  --clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  --gradient-start: #6366f1;
+  --gradient-end: #4f46e5;
+  --market-fit-width: 0%;
+  --innovation-width: 0%;
+  --feasibility-width: 0%;
+  --scalability-width: 0%;
+}
+
+/* Analysis progress bars */
+.analysis-progress-container {
+  width: 100%;
+  background-color: rgb(229, 231, 235);
+  border-radius: 9999px;
+  height: 0.5rem;
+}
+
+.analysis-progress-market {
+  width: var(--market-fit-width);
+  height: 100%;
+  border-radius: 9999px;
+  background-color: rgb(37, 99, 235);
+  transition: width 0.3s ease-in-out;
+}
+
+.analysis-progress-innovation {
+  width: var(--innovation-width);
+  height: 100%;
+  border-radius: 9999px;
+  background-color: rgb(22, 163, 74);
+  transition: width 0.3s ease-in-out;
+}
+
+.analysis-progress-feasibility {
+  width: var(--feasibility-width);
+  height: 100%;
+  border-radius: 9999px;
+  background-color: rgb(202, 138, 4);
+  transition: width 0.3s ease-in-out;
+}
+
+.analysis-progress-scalability {
+  width: var(--scalability-width);
+  height: 100%;
+  border-radius: 9999px;
+  background-color: rgb(147, 51, 234);
+  transition: width 0.3s ease-in-out;
+}
+
+/* Score progress bar */
+.score-progress {
+  width: var(--progress-width);
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+.progress-bar {
+  height: 0.5rem;
+  width: 100%;
+  background-color: rgba(55, 65, 81, 0.2);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Score circle */
+.score-circle {
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.score-circle-background {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: rgba(55, 65, 81, 0.2);
+}
+
+.score-circle-progress {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--score-gradient);
+  clip-path: var(--clip-path);
+  transition: clip-path 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.score-circle-inner {
+  position: absolute;
+  inset: 1rem;
+  border-radius: 9999px;
+  background-color: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-circle-value {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+/* Chart container */
+.chart-container {
+  width: var(--chart-width);
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar container */
+.sidebar-container {
+  width: var(--sidebar-width);
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-left: 1px solid #e9ecef;
+}
+
+/* Progress bar width */
+.progress-bar-width {
+  width: var(--progress-width);
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Chart indicator styles */
+.chart-indicator {
+  --color-bg: currentColor;
+  --color-border: currentColor;
+}
+
+.chart-indicator-dot {
+  height: 0.625rem;
+  width: 0.625rem;
+  border-radius: 2px;
+  border-color: var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.chart-indicator-line {
+  width: 0.25rem;
+  border-radius: 2px;
+  border-color: var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.chart-indicator-dashed {
+  width: 0;
+  border: 1.5px dashed var(--color-border);
+  background-color: transparent;
+}
+
+.chart-indicator-dashed.nested {
+  margin-top: 0.125rem;
+  margin-bottom: 0.125rem;
+}
+
+/* Chart legend styles */
+.chart-legend-indicator {
+  height: 0.5rem;
+  width: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 2px;
+  background-color: var(--indicator-color);
+}
+
+/* Sidebar styles */
+.sidebar-wrapper {
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 3rem;
+  --sidebar-width-mobile: 18rem;
+}
+
+.sidebar-mobile {
+  --sidebar-width: var(--sidebar-width-mobile);
+} 

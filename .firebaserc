@@ -1,0 +1,10 @@
+/**
+ * Firebase 프로젝트 설정 파일
+ * 이 파일은 Firebase CLI가 어떤 프로젝트를 사용할지 지정합니다.
+ * "default" 키는 기본 프로젝트를 지정하며, firebase deploy 명령어 실행 시 이 프로젝트가 대상이 됩니다.
+ */
+# {
+#   "projects": {
+#     "default": "your-project-id"
+#   }
+# }

@@ -1,0 +1,31 @@
+.score-bar {
+  width: var(--score-width);
+  transition: width 0.5s ease-in-out;
+}
+
+.score-bar-container {
+  overflow: hidden;
+  height: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  background-color: #e5e7eb;
+}
+
+.score-bar-fill {
+  height: 100%;
+  background-color: #3b82f6;
+  transition: width 0.5s ease-in-out;
+}
+
+/* 점수 바 너비를 위한 클래스들 */
+.score-0 { width: 0%; }
+.score-10 { width: 10%; }
+.score-20 { width: 20%; }
+.score-30 { width: 30%; }
+.score-40 { width: 40%; }
+.score-50 { width: 50%; }
+.score-60 { width: 60%; }
+.score-70 { width: 70%; }
+.score-80 { width: 80%; }
+.score-90 { width: 90%; }
+.score-100 { width: 100%; } 

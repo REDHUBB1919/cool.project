@@ -1,0 +1,48 @@
+# [docker-compose.yml]
+# Next.js + Firebase 연동 개발 환경용 docker-compose 예시
+# 각 설정에 주석을 추가하여 Docker 초보자도 쉽게 이해할 수 있도록 작성
+
+# version: '3.8'
+# services:
+#   app:
+#     build: .
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       - NODE_ENV=development
+#     volumes:
+#       - .:/app
+#       - /app/node_modules
+#     command: npm run dev
+
+# --- (선택) Firebase Emulator 등 추가 서비스 예시 ---
+# firebase-emulator:
+#   image: firebase/emulator
+#   ports:
+#     - "4000:4000"
+#     - "8080:8080"
+#   volumes:
+#     - ./firebase.json:/firebase.json
+#     - ./firestore.rules:/firestore.rules
+#   command: ["emulators:start"]
+
+# ai-proxy:
+#   build: ./ai-proxy
+#   ports:
+#     - "5000:5000"
+#   env_file:
+#     - ./ai-proxy/.env
+
+redis:
+  image: redis:alpine
+  ports:
+    - "6379:6379"
+  volumes:
+    - redis_data:/data
+
+# --- 참고 ---
+# - docker-compose up --build 로 전체 개발 환경을 한 번에 실행 가능
+# - 서비스 추가/확장 시 위 예시 참고
+
+volumes:
+  redis_data:
