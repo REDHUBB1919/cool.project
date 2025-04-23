@@ -10,14 +10,18 @@ const nextConfig = {
     NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
   },
   // 환경 변수 디버깅을 위한 설정
-  webpack: (config) => {
-    config.externals.push({ 'ioredis': 'commonjs ioredis' });
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      net: false,
-      tls: false,
-      dns: false,
-    };
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        net: false,
+        tls: false,
+        dns: false,
+        'ioredis': false
+      };
+    }
     return config;
   },
 }
