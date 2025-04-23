@@ -6,11 +6,10 @@
  * 1. API 키 생성일 확인
  * 2. 키 순환 필요성 검사
  * 3. 키 순환 알림
- * 4. Redis를 사용한 영구 저장
+ * 4. Firebase Firestore를 사용한 영구 저장
  */
 
 import { logger } from './logger';
-// import redis from './redis';
 import { db } from './firebase';
 
 interface ApiKeyInfo {
@@ -22,7 +21,7 @@ interface ApiKeyInfo {
 
 class ApiKeyManager {
   private static instance: ApiKeyManager;
-  private readonly REDIS_KEY_PREFIX = 'apikey:';
+  private readonly COLLECTION_NAME = 'apiKeys';
 
   private constructor() {
     this.initializeKeys();
@@ -70,19 +69,13 @@ class ApiKeyManager {
     }
   }
 
-  private getRedisKey(keyName: string): string {
-    return `${this.REDIS_KEY_PREFIX}${keyName}`;
-  }
-
   private async setKey(keyName: string, info: ApiKeyInfo): Promise<void> {
-    const redisKey = this.getRedisKey(keyName);
-    // await redis.set(redisKey, JSON.stringify(info));
+    await db.collection(this.COLLECTION_NAME).doc(keyName).set(info);
   }
 
   private async getKey(keyName: string): Promise<ApiKeyInfo | null> {
-    const redisKey = this.getRedisKey(keyName);
-    // const data = await redis.get(redisKey);
-    return null;
+    const doc = await db.collection(this.COLLECTION_NAME).doc(keyName).get();
+    return doc.exists ? doc.data() as ApiKeyInfo : null;
   }
 
   private extractGenerationDate(key: string): string | null {
@@ -135,15 +128,11 @@ class ApiKeyManager {
 
   public async getAllKeys(): Promise<Map<string, ApiKeyInfo>> {
     const keys = new Map<string, ApiKeyInfo>();
-    const redisKeys = await redis.keys(`${this.REDIS_KEY_PREFIX}*`);
+    const snapshot = await db.collection(this.COLLECTION_NAME).get();
     
-    for (const redisKey of redisKeys) {
-      const data = await redis.get(redisKey);
-      if (data) {
-        const keyName = redisKey.replace(this.REDIS_KEY_PREFIX, '');
-        keys.set(keyName, JSON.parse(data));
-      }
-    }
+    snapshot.forEach(doc => {
+      keys.set(doc.id, doc.data() as ApiKeyInfo);
+    });
     
     return keys;
   }
@@ -151,20 +140,7 @@ class ApiKeyManager {
 
 export const apiKeyManager = ApiKeyManager.getInstance();
 
-// Redis 관련 함수 주석 처리
-// export async function getApiKey(userId: string) {
-//   return await redis.get(`apiKey:${userId}`);
-// }
-
-// export async function setApiKey(userId: string, apiKey: string) {
-//   await redis.set(`apiKey:${userId}`, apiKey);
-// }
-
-// export async function deleteApiKey(userId: string) {
-//   await redis.del(`apiKey:${userId}`);
-// }
-
-// 임시로 Firebase Firestore 사용
+// Firebase Firestore를 사용한 API 키 관리 함수
 export async function getApiKey(userId: string) {
   const doc = await db.collection('apiKeys').doc(userId).get();
   return doc.exists ? doc.data()?.apiKey : null;
