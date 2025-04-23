@@ -1,6 +1,9 @@
 let redis: any = null;
 
-if (typeof window === 'undefined') {
+if (process.env.NODE_ENV === 'production' && typeof window === 'undefined') {
+  const Redis = require('ioredis');
+  redis = new Redis(process.env.REDIS_URL!);
+} else if (process.env.NODE_ENV === 'development') {
   const Redis = require('ioredis');
   redis = new Redis(process.env.REDIS_URL!);
 }

@@ -16,14 +16,12 @@ const nextConfig = {
         ...config.resolve.fallback,
         fs: false,
         path: false,
+        net: false,
+        tls: false,
+        dns: false,
+        'ioredis': false
       };
     }
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      net: false,
-      tls: false,
-      dns: false,
-    };
     return config;
   },
 }
