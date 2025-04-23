@@ -79,8 +79,8 @@ export async function POST(request: Request) {
     }
     
     try {
-      const result = JSON.parse(content) as AIAnalysisResult;
-      return NextResponse.json(result);
+    const result = JSON.parse(content) as AIAnalysisResult;
+    return NextResponse.json(result);
     } catch (parseError) {
       logger.error('OpenAI API 응답 파싱 실패', parseError as Error, { content });
       throw new ExternalServiceError('OpenAI API 응답을 파싱하는데 실패했습니다.');

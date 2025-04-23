@@ -1,7 +1,9 @@
-import Redis from 'ioredis';
+let redis: any = null;
 
-// Redis 클라이언트 설정
-const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
+if (typeof window === 'undefined') {
+  const Redis = require('ioredis');
+  redis = new Redis(process.env.REDIS_URL!);
+}
 
 // Redis 연결 에러 처리
 redis.on('error', (error) => {
