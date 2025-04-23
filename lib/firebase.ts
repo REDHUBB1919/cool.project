@@ -14,10 +14,13 @@
  */
 
 // Firebase SDK에서 필요한 함수들을 import
-import { initializeApp, getApps, FirebaseApp } from "firebase/app"; // Added FirebaseApp
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 import { getAnalytics } from "firebase/analytics";
 // import { getAuth } from "firebase/auth"; // No longer needed globally here
-import { getFirestore, Firestore, setDoc, doc, collection, getDocs, query, where, getDoc, collectionGroup } from "firebase/firestore"; // Added Firestore
+import { setDoc, doc, collection, getDocs, query, where, getDoc, collectionGroup } from "firebase/firestore"; // Added Firestore
 
 // 필수 환경변수 목록 (참고용)
 // const requiredEnvVars = [
@@ -52,27 +55,21 @@ import { getFirestore, Firestore, setDoc, doc, collection, getDocs, query, where
  * Firebase 프로젝트 설정
  * 환경변수에서 가져온 프로젝트 설정값들입니다.
  */
-export const firebaseConfig = { // Export firebaseConfig
+const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  ...(process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID && {
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
-  })
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-// Firebase 앱, Auth, Firestore, Analytics 인스턴스 초기화 코드를 제거합니다.
-// 초기화는 필요한 컴포넌트 (예: AuthProvider) 내부에서 수행합니다.
-// let app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-// const auth = getAuth(app);
-// const db = getFirestore(app);
-// let analytics = null;
-// if (typeof window !== 'undefined') {
-//   analytics = getAnalytics(app);
-// }
+// Firebase 초기화
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const db = getFirestore(app);
+const auth = getAuth(app);
+const storage = getStorage(app);
 
 // firebaseConfig 객체를 export 합니다.
 // export { firebaseConfig }; // Already exported above
@@ -242,5 +239,4 @@ export async function getSharedResult(resultId: string) {
   }
 }
 
-// Firebase 인스턴스 직접 export 제거
-// export { app, auth, db }; // analytics is exported above now
+export { app, db, auth, storage };
