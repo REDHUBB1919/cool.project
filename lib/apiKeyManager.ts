@@ -10,7 +10,8 @@
  */
 
 import { logger } from './logger';
-import redis from './redis';
+// import redis from './redis';
+import { db } from './firebase';
 
 interface ApiKeyInfo {
   key: string;
@@ -75,13 +76,13 @@ class ApiKeyManager {
 
   private async setKey(keyName: string, info: ApiKeyInfo): Promise<void> {
     const redisKey = this.getRedisKey(keyName);
-    await redis.set(redisKey, JSON.stringify(info));
+    // await redis.set(redisKey, JSON.stringify(info));
   }
 
   private async getKey(keyName: string): Promise<ApiKeyInfo | null> {
     const redisKey = this.getRedisKey(keyName);
-    const data = await redis.get(redisKey);
-    return data ? JSON.parse(data) : null;
+    // const data = await redis.get(redisKey);
+    return null;
   }
 
   private extractGenerationDate(key: string): string | null {
@@ -148,4 +149,31 @@ class ApiKeyManager {
   }
 }
 
-export const apiKeyManager = ApiKeyManager.getInstance(); 
+export const apiKeyManager = ApiKeyManager.getInstance();
+
+// Redis 관련 함수 주석 처리
+// export async function getApiKey(userId: string) {
+//   return await redis.get(`apiKey:${userId}`);
+// }
+
+// export async function setApiKey(userId: string, apiKey: string) {
+//   await redis.set(`apiKey:${userId}`, apiKey);
+// }
+
+// export async function deleteApiKey(userId: string) {
+//   await redis.del(`apiKey:${userId}`);
+// }
+
+// 임시로 Firebase Firestore 사용
+export async function getApiKey(userId: string) {
+  const doc = await db.collection('apiKeys').doc(userId).get();
+  return doc.exists ? doc.data()?.apiKey : null;
+}
+
+export async function setApiKey(userId: string, apiKey: string) {
+  await db.collection('apiKeys').doc(userId).set({ apiKey });
+}
+
+export async function deleteApiKey(userId: string) {
+  await db.collection('apiKeys').doc(userId).delete();
+} 

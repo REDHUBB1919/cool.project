@@ -1,13 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { apiKeyManager } from '@/lib/apiKeyManager';
+// import { getApiKey, setApiKey, deleteApiKey } from '@/lib/apiKeyManager';
+import { db } from '@/lib/firebase';
 
 interface ApiKeyInfo {
   key: string;
   generatedAt: string;
   expiresAt: string;
   status: 'active' | 'expired' | 'pending';
+}
+
+// Redis 관련 함수 호출을 Firebase Firestore로 대체
+async function getApiKey(userId: string) {
+  const doc = await db.collection('apiKeys').doc(userId).get();
+  return doc.exists ? doc.data()?.apiKey : null;
+}
+
+async function setApiKey(userId: string, apiKey: string) {
+  await db.collection('apiKeys').doc(userId).set({ apiKey });
+}
+
+async function deleteApiKey(userId: string) {
+  await db.collection('apiKeys').doc(userId).delete();
 }
 
 export default function ApiKeyManagement() {
